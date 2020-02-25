@@ -50,7 +50,6 @@ public class TransportadoraService {
 		
 	}
 
-	
 	public void create(TransportadoraCreateUpdateDto dto) {
 		TransportadoraEntity create = mapper.map(dto, TransportadoraEntity.class);
 		for (Long modalId : dto.getModais()) {		
