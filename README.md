@@ -1,7 +1,7 @@
-## Spring REST Angular
+## Projeto Demo Transportadora para hive cloud
 
-This module contains articles about REST APIs with Spring and Angular
+CRUD de transportadoras usando Spring boot, Spring Data, Spring MVC, H2, Maven, Junit.
 
-### Relevant Articles:
+### OBS do Author:
 
-- [Pagination with Spring REST and AngularJS table](https:ww.baeldung.com/pagination-with-a-spring-rest-api-and-an-angularjs-table)
+Evidentimente em um sistema real, o codigo teria uma camada de validacao de DTO e uma camada de validacao de entity e haveria tambem uma camada de seguraca e outras coisa, meu objetivo foi fazer algo simples so para demostrar meu conhecimento em JAVA/SPRING
