@@ -1,5 +1,7 @@
 package br.com.hivecloud.transportadora.web.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,23 +17,27 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	protected static final String[] AUTHORIZED_PATTERNS = { "/api/transportadoras/**" };
+	protected static final String[] AUTHORIZED_PATTERNS = { "/api//**" };
 
+	
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors();
 		
 		RequestMatcher corsMatcher = CorsUtils::isPreFlightRequest;
 
-		http.csrf().disable().httpBasic().and().authorizeRequests().antMatchers(AUTHORIZED_PATTERNS).permitAll()
-				.requestMatchers(corsMatcher).permitAll().anyRequest().permitAll();
+		http.cors().and().csrf().disable().httpBasic().and().authorizeRequests().antMatchers(AUTHORIZED_PATTERNS).permitAll().requestMatchers(corsMatcher).permitAll();
 	}
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+		config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+		source.registerCorsConfiguration("/**", config);
+		
 		return source;
 	}
+	
+
 }

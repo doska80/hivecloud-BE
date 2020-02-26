@@ -30,7 +30,7 @@ public interface TransportadoraRepository extends JpaRepository<TransportadoraEn
      List<Statistics> ufCount();
 	
     @Query(nativeQuery = true, value =
-            "SELECT m.nome AS item, COUNT(*) AS total FROM transportadoras_modais t INNER JOIN modal m ON t.id_modal = m.id_modal GROUP BY m.nome ")
+            "SELECT m.nome AS item, COUNT(*) AS total FROM Transportadora_Modal t INNER JOIN modal m ON t.fk_id_modal = m.id_modal GROUP BY m.nome ")
      List<Statistics> modalCount();
 
 

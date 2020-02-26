@@ -1,7 +1,7 @@
 package br.com.hivecloud.transportadora.web.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,13 +15,13 @@ public class ModalEntity {
 
 	@Id
 	@Column(name = "id_modal")
-	private long idModal;
+	private Long idModal;
+
 	@Column(nullable = false)
 	private String nome;
 
 	@ManyToMany(mappedBy = "modais")
-	private Set<TransportadoraEntity> transportadoras = new HashSet<>();
-
+	private List<TransportadoraEntity> transportadoras = new ArrayList<>();
 
 	public String getNome() {
 		return nome;
@@ -31,20 +31,20 @@ public class ModalEntity {
 		this.nome = nome;
 	}
 
-	public Set<TransportadoraEntity> getTransportadoras() {
-		return transportadoras;
-	}
-
-	public void setTransportadoras(Set<TransportadoraEntity> transportadoras) {
-		this.transportadoras = transportadoras;
-	}
-
-	public long getIdModal() {
+	public Long getIdModal() {
 		return idModal;
 	}
 
-	public void setIdModal(long idModal) {
+	public void setIdModal(Long idModal) {
 		this.idModal = idModal;
+	}
+
+	public List<TransportadoraEntity> getTransportadoras() {
+		return transportadoras;
+	}
+
+	public void setTransportadoras(List<TransportadoraEntity> transportadoras) {
+		this.transportadoras = transportadoras;
 	}
 
 }

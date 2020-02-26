@@ -1,5 +1,6 @@
 package br.com.hivecloud.transportadora.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.hivecloud.transportadora.web.dao.ModalRepository;
 import br.com.hivecloud.transportadora.web.dao.TransportadoraRepository;
 import br.com.hivecloud.transportadora.web.dto.CriteriaDto;
+import br.com.hivecloud.transportadora.web.dto.ModalDto;
 import br.com.hivecloud.transportadora.web.dto.StatisticDto;
 import br.com.hivecloud.transportadora.web.dto.TransportadoraCreateUpdateDto;
 import br.com.hivecloud.transportadora.web.dto.TransportadoraDto;
 import br.com.hivecloud.transportadora.web.dto.TransportadoraFlatDto;
+import br.com.hivecloud.transportadora.web.entity.ModalEntity;
 import br.com.hivecloud.transportadora.web.entity.Statistics;
 import br.com.hivecloud.transportadora.web.entity.TransportadoraEntity;
 import br.com.hivecloud.transportadora.web.exception.NotFoundException;
@@ -52,12 +55,17 @@ public class TransportadoraService {
 
 	public void create(TransportadoraCreateUpdateDto dto) {
 		TransportadoraEntity create = mapper.map(dto, TransportadoraEntity.class);
-		for (Long modalId : dto.getModais()) {		
-			create.addModal(modalDao.findById(modalId).get());
-		}
-		transportadoraDao.save(create);
-	
+		create.getModais().clear();
+		TransportadoraEntity created = transportadoraDao.save(create);
+		created.setModais(loadModaisFromDB(dto));
+	}
 
+	private List<ModalEntity> loadModaisFromDB(TransportadoraCreateUpdateDto dto) {
+		List<ModalEntity> toBeOPersist = new ArrayList<>();
+		for (ModalDto mDto : dto.getModais()) {		
+			toBeOPersist.add(modalDao.findById(mDto.getIdModal()).get());
+		}
+		return toBeOPersist;
 	}
 
 	public void update(TransportadoraCreateUpdateDto dto) {
@@ -67,7 +75,9 @@ public class TransportadoraService {
 		} else {
 			TransportadoraEntity target = opt.get();
 			mapper.map(dto, target);
-			transportadoraDao.save(target);
+			target.getModais().clear();
+			target = transportadoraDao.save(target);
+			target.setModais(loadModaisFromDB(dto));
 		}
 
 	}

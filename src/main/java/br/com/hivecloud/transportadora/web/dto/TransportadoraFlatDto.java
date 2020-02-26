@@ -30,8 +30,7 @@ public class TransportadoraFlatDto {
 	private String cep;
 	private String cnpj;
 	private String logo;
-
-
+	private String celular;
 
 	public String getEmail() {
 		return email;
@@ -151,6 +150,14 @@ public class TransportadoraFlatDto {
 
 	public void setIdTransportadora(Long idTransportadora) {
 		this.idTransportadora = idTransportadora;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 }

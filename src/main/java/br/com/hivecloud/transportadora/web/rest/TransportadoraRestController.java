@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,9 @@ import br.com.hivecloud.transportadora.web.dto.TransportadoraFlatDto;
 import br.com.hivecloud.transportadora.web.service.TransportadoraService;
 
 @RestController
+
 @RequestMapping("/api/transportadoras")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TransportadoraRestController {
 
 	@Autowired
@@ -39,18 +42,18 @@ public class TransportadoraRestController {
 	}
 
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)  
-	public ResponseEntity<TransportadoraFlatDto> findOne(@PathVariable Long id) {
+	public ResponseEntity<TransportadoraDto> findOne(@PathVariable Long id) {
 		return new ResponseEntity<>(service.findOne(id), HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "", method = RequestMethod.POST)
-	public ResponseEntity<TransportadoraFlatDto> create(@RequestBody TransportadoraCreateUpdateDto dto) {
+	public ResponseEntity<Void> create(@RequestBody TransportadoraCreateUpdateDto dto) {
 		service.create(dto);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@RequestMapping(path = "", method = RequestMethod.PUT)
-	public ResponseEntity<TransportadoraFlatDto> update(@RequestBody TransportadoraCreateUpdateDto dto) {
+	public ResponseEntity<Void> update(@RequestBody TransportadoraCreateUpdateDto dto) {
 		service.update(dto);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

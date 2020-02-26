@@ -1,8 +1,8 @@
 package br.com.hivecloud.transportadora.web.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -31,6 +30,8 @@ public class TransportadoraEntity implements Serializable {
 	private String empresa;
 	@Column(nullable = false)
 	private String telefone;
+	@Column(nullable = false)
+	private String celular;
 	@Column(nullable = false)
 	private String rua;
 	@Column(nullable = false)
@@ -52,24 +53,17 @@ public class TransportadoraEntity implements Serializable {
 	@Column
 	private String cep;
 
-	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "transportadoras_modais", joinColumns = {
-			@JoinColumn(name = "idTransportadora") }, inverseJoinColumns = { @JoinColumn(name = "idModal") })
-	
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "Transportadora_Modal", joinColumns = @JoinColumn(name = "fkIdTransportadora"), inverseJoinColumns = @JoinColumn(name = "fkIdModal"))
+	List<ModalEntity> modais = new ArrayList<ModalEntity>();
 
-	Set<ModalEntity> modais = new HashSet<>();
-
-	
-	public void addModal(ModalEntity modal) {
-		modais.add(modal);
-		modal.getTransportadoras().add(this);
+	public List<ModalEntity> getModais() {
+		return modais;
 	}
 
-	public void removeModal(ModalEntity modal) {
-		modais.remove(modal);
-		modal.getTransportadoras().remove(this);
+	public void setModais(List<ModalEntity> modais) {
+		this.modais = modais;
 	}
-	
 
 	public String getEmail() {
 		return email;
@@ -167,15 +161,6 @@ public class TransportadoraEntity implements Serializable {
 		this.cep = cep;
 	}
 
-	@OrderBy("name asc")
-	public Set<ModalEntity> getModais() {
-		return modais;
-	}
-
-	public void setModais(Set<ModalEntity> modais) {
-		this.modais = modais;
-	}
-
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -190,6 +175,14 @@ public class TransportadoraEntity implements Serializable {
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public long getIdTransportadora() {

@@ -5,13 +5,13 @@ import java.util.List;
 
 public class TransportadoraCreateUpdateDto extends TransportadoraFlatDto {
 
-	private List<Long> modais = new ArrayList<>();
+	private List<ModalDto> modais = new ArrayList<>();
 
-	public List<Long> getModais() {
+	public List<ModalDto> getModais() {
 		return modais;
 	}
 
-	public void setModais(List<Long> modais) {
+	public void setModais(List<ModalDto> modais) {
 		this.modais = modais;
 	}
 }
